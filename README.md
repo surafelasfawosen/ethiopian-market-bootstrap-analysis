@@ -2,9 +2,9 @@
 
 This project demonstrates how to leverage **Bootstrap Simulation** combined with Multiple Linear Regression to derive highly reliable business insights. I predict **Monthly Sales Revenue** based on two key drivers: **Advertising Budget** and **Product Price**.
 
-🚀 **[Click here to view the full HTML Project Report](https://htmlpreview.github.io/?https://github.com/surafelasfawosen/ethiopian-market-bootstrap-analysis/blob/main/Project_Report.html)**
+ **[Click here to view the full HTML Project Report](https://htmlpreview.github.io/?https://github.com/surafelasfawosen/ethiopian-market-bootstrap-analysis/blob/main/Project_Report.html)**
 
-## 🎯 The Core Point: Why Use Bootstrap in Business Analysis?
+##  The Core Point: Why Use Bootstrap in Business Analysis?
 
 In standard business analytics, we often rely on Ordinary Least Squares (OLS) regression to understand how factors like ad spend or pricing affect sales. However, standard regression relies on strict mathematical assumptions (perfect normality, constant variance, no severe outliers). In the real world, especially with small datasets (like our n = 50 companies), these assumptions are rarely met perfectly.
 
@@ -22,7 +22,7 @@ In standard business analytics, we often rely on Ordinary Least Squares (OLS) re
 
 ---
 
-## 📊 Results & Interpretation
+##  Results & Interpretation
 
 Our base dataset contains 50 records. Initial descriptive statistics show:
 - **Average Monthly Sales:** $666.48
