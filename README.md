@@ -1,6 +1,8 @@
-# Business Analytics: Regression Modeling with Bootstrap Simulation
+# Ethiopian Market Analysis: Regression Modeling with Bootstrap Simulation
 
-This project demonstrates how to leverage **Bootstrap Simulation** combined with Multiple Linear Regression to derive highly reliable business insights. We predict **Monthly Sales Revenue** based on two key drivers: **Advertising Budget** and **Product Price**.
+This project demonstrates how to leverage **Bootstrap Simulation** combined with Multiple Linear Regression to derive highly reliable business insights. I predict **Monthly Sales Revenue** based on two key drivers: **Advertising Budget** and **Product Price**.
+
+🚀 **[Click here to view the full HTML Project Report](https://htmlpreview.github.io/?https://github.com/surafelasfawosen/ethiopian-market-bootstrap-analysis/blob/main/Project_Report.html)**
 
 ## 🎯 The Core Point: Why Use Bootstrap in Business Analysis?
 
@@ -29,8 +31,8 @@ Our base dataset contains 50 records. Initial descriptive statistics show:
 ### 1. The Effect of Advertising (Positive Driver)
 *For every additional $1,000 spent on advertising, how much do sales increase?*
 
-![Fitted Advertising Model](fitted_ad.png)
-![Bootstrap Distribution: Advertising](boot_ad.png)
+![Fitted Advertising Model](images/fitted_ad.png)
+![Bootstrap Distribution: Advertising](images/boot_ad.png)
 
 **Interpretation:**
 The standard model estimated a ~$4.98 return. After running 10,000 bootstrap simulations, our **95% Confidence Interval is (4.618, 5.325)**. 
@@ -39,8 +41,8 @@ The standard model estimated a ~$4.98 return. After running 10,000 bootstrap sim
 ### 2. The Effect of Product Price (Negative Driver)
 *How much do sales drop when we increase our product price by $1?*
 
-![Fitted Price Model](fitted_price.png)
-![Bootstrap Distribution: Price](boot_price.png)
+![Fitted Price Model](images/fitted_price.png)
+![Bootstrap Distribution: Price](images/boot_price.png)
 
 **Interpretation:**
 Our bootstrap simulation generated a **95% Confidence Interval of (-2.136, -1.596)** for the price coefficient.
@@ -48,9 +50,24 @@ Our bootstrap simulation generated a **95% Confidence Interval of (-2.136, -1.59
 
 ---
 
-## 🛠️ Project Maintenance & Execution
+## 🛠️ How to Clone and Run the Code Yourself
 
-The analysis code is fully functional. To reproduce these results:
-1. Ensure `R` is installed with the `ggplot2` and `boot` packages.
-2. Run the script: `Rscript bootstrap_regression.R`
-3. Check the console output for exact confidence intervals and view the generated `.png` plots for the distributions.
+If you'd like to try running the R code and generate the bootstrap simulation yourself, follow these steps:
+
+1. **Clone the repository to your local machine:**
+   ```bash
+   git clone https://github.com/surafelasfawosen/ethiopian-market-bootstrap-analysis.git
+   cd ethiopian-market-bootstrap-analysis
+   ```
+
+2. **Prerequisites:** Ensure you have `R` installed, along with the `ggplot2` and `boot` packages. You can install them in R using:
+   ```R
+   install.packages(c("ggplot2", "boot"))
+   ```
+
+3. **Run the script:**
+   ```bash
+   Rscript bootstrap_regression.R
+   ```
+
+4. **Check the output:** The console will display the exact confidence intervals, and the generated `.png` plots will be automatically saved in the `images/` folder!

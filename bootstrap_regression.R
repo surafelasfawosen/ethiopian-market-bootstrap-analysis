@@ -142,7 +142,7 @@ print(p_boot_ad)
 print(p_boot_price)
 
 # Save plots for README
-ggsave("fitted_ad.png", plot = p_fit_ad, width = 6, height = 4, dpi = 300)
-ggsave("fitted_price.png", plot = p_fit_price, width = 6, height = 4, dpi = 300)
-ggsave("boot_ad.png", plot = p_boot_ad, width = 6, height = 4, dpi = 300)
-ggsave("boot_price.png", plot = p_boot_price, width = 6, height = 4, dpi = 300)
+ggsave("images/fitted_ad.png", plot = p_fit_ad, width = 6, height = 4, dpi = 300)
+ggsave("images/fitted_price.png", plot = p_fit_price, width = 6, height = 4, dpi = 300)
+ggsave("images/boot_ad.png", plot = p_boot_ad, width = 6, height = 4, dpi = 300)
+ggsave("images/boot_price.png", plot = p_boot_price, width = 6, height = 4, dpi = 300)
