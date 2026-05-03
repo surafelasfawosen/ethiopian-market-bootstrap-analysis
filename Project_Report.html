@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Group 6" />
+<meta name="author" content="Surafel Asfawosen" />
 
 <meta name="date" content="2026-05-07" />
 
@@ -1499,7 +1499,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Statistical Modeling and Simulation
 Project</h1>
-<h4 class="author">Group 6</h4>
+<h4 class="author">Surafel Asfawosen</h4>
 <h4 class="date">May 7, 2026</h4>
 
 </div>
@@ -1514,6 +1514,19 @@ regression assumptions on a base dataset, and then apply
 <strong>Bootstrap Simulation</strong> (generating 10,000 new datasets)
 to estimate highly reliable confidence intervals without relying on
 strict theoretical assumptions.</p>
+<blockquote>
+<p>💡 <strong>A Note for Researchers &amp; Business
+Analysts:</strong><br />
+Are you struggling with a lack of data? Do you have a dataset with fewer
+than 100 records and worry your findings won’t be statistically
+significant? <strong>Don’t let a small dataset stop your
+analysis.</strong> By implementing the Bootstrap model demonstrated in
+this repository, you can simulate thousands of scenarios from your small
+sample, extracting powerful, statistically sound business insights. I
+built this specific repository so you can try it yourself—feel free to
+clone this code, replace the data with your own, and see the magic of
+bootstrapping!</p>
+</blockquote>
 </div>
 <div id="data-description" class="section level2">
 <h2>2. Data Description</h2>
@@ -1553,16 +1566,19 @@ and a Density Plot:</p>
 </div>
 <div id="assumption-checking-and-linear-fit" class="section level2">
 <h2>3. Assumption Checking and Linear Fit</h2>
-<p>Standard Ordinary Least Squares (OLS) regression requires the data to
-meet several strict conditions: linearity, independence, constant
-variance (homoscedasticity), and normality of errors. Before running our
-massive simulation, we fitted a basic model to our 50 companies and used
-diagnostic plots to check these assumptions. We looked at the “Residuals
-vs Fitted” plot to ensure our data was actually linear, and we checked
-the “Normal Q-Q” plot to see if our errors were normally distributed.
-While our data looked reasonably good, we knew that relying solely on
-OLS could be risky if there were hidden outliers. This is why we made
-Bootstrap Simulation our core methodology.</p>
+<p>Following our initial Exploratory Data Analysis (EDA)—which confirmed
+the basic distribution of our data using statistical summaries and
+side-by-side Boxplot and Density plots—we evaluated our formal modeling
+requirements. Standard Ordinary Least Squares (OLS) regression requires
+the data to meet several strict conditions: linearity, independence,
+constant variance (homoscedasticity), and normality of errors. Before
+running our massive simulation, we fitted a basic model to our 50
+companies and used diagnostic plots to check these assumptions. We
+looked at the “Residuals vs Fitted” plot to ensure our data was actually
+linear, and we checked the “Normal Q-Q” plot to see if our errors were
+normally distributed. While our data looked reasonably good, we knew
+that relying solely on OLS could be risky if there were hidden outliers.
+This is why we made Bootstrap Simulation our core methodology.</p>
 <pre class="r"><code>base_model &lt;- lm(Sales ~ Advertising + Price, data = business_data)
 
 # Diagnostic Plots
@@ -1617,10 +1633,25 @@ boot_results &lt;- boot(data = business_data, statistic = boot_reg, R = 10000)</
 </div>
 <div id="conclusion" class="section level2">
 <h2>6. Conclusion</h2>
-<p>Assumption checking confirmed our data supports linear modeling.
-Fitted plots visually demonstrated the trends, and Bootstrap Simulation
-mathematically proved Advertising drives sales while higher Prices
-suppress volume.</p>
+<p>Standard regression models rely on strict mathematical assumptions
+that often fail in real-world business scenarios. Instead of trusting a
+single potentially biased model run, we used <strong>Bootstrap
+Resampling</strong> to simulate 10,000 different samples from our small
+base dataset.</p>
+<p><strong>Core Business Insights Derived:</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Advertising is a Stable Investment:</strong> We can state
+with 95% certainty that every additional $1,000 invested in advertising
+consistently generates between <strong>$4,618</strong> and
+<strong>$5,325</strong> in new monthly sales.</li>
+<li><strong>Pricing Suppresses Volume Reliably:</strong> Increasing the
+product price by $1 will reliably decrease overall monthly sales volume
+by between <strong>$1,596</strong> and <strong>$2,136</strong>.</li>
+</ol>
+<p>By using this Bootstrap methodology, we provided decision-makers with
+concrete, mathematically proven “worst-case” and “best-case” ROI bounds,
+eliminating the uncertainty that comes with analyzing small, non-normal
+datasets.</p>
 </div>
 
 
