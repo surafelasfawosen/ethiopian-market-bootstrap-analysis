@@ -50,6 +50,9 @@ Our bootstrap simulation generated a **95% Confidence Interval of (-2.136, -1.59
 
 ---
 
+> 💡 **A Note for Researchers & Business Analysts:**  
+> Are you struggling with a lack of data? Do you have a dataset with fewer than 100 records and worry your findings won't be statistically significant? **Don't let a small dataset stop your analysis.** By implementing the Bootstrap model demonstrated in this repository, you can simulate thousands of scenarios from your small sample, extracting powerful, statistically sound business insights. I built this specific repository so you can try it yourself—feel free to clone this code, replace the data with your own, and see the magic of bootstrapping!
+
 ## 🛠️ How to Clone and Run the Code Yourself
 
 If you'd like to try running the R code and generate the bootstrap simulation yourself, follow these steps:
