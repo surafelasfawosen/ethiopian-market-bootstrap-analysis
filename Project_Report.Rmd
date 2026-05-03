@@ -1,0 +1,125 @@
+---
+title: "Statistical Modeling and Simulation Project"
+author: "Sura"
+date: "May 7, 2026"
+output: 
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(boot)
+set.seed(42)
+```
+
+## 1. Introduction
+The objective of this study is to model the linear relationship between Monthly Sales Revenue (dependent variable) and two independent variables: Advertising Budget and Product Price. We check standard regression assumptions on a base dataset, and then apply **Bootstrap Simulation** (generating 10,000 new datasets) to estimate highly reliable confidence intervals without relying on strict theoretical assumptions.
+
+## 2. Data Description
+We simulated a base dataset representing 50 retail companies. This base dataset serves as our empirical population. We use Bootstrap resampling to generate $B = 10,000$ new simulated datasets for our regression analysis.
+
+```{r data-generation}
+# Generate Initial Base Dataset
+n_base <- 50
+advertising_budget <- runif(n_base, min = 10, max = 100) 
+product_price <- runif(n_base, min = 20, max = 150)      
+
+beta_0 <- 500; beta_1 <- 5; beta_2 <- -2   
+
+error_term <- rnorm(n_base, mean = 0, sd = 40)
+sales_revenue <- beta_0 + beta_1 * advertising_budget + beta_2 * product_price + error_term
+
+business_data <- data.frame(Sales = sales_revenue, Advertising = advertising_budget, Price = product_price)
+```
+
+## 2.5 Exploratory Data Analysis (EDA)
+Before advanced modeling, we calculate basic descriptive statistics to understand our generated Sales Revenue data:
+
+```{r eda-stats}
+# Descriptive Statistics
+mean(business_data$Sales)
+sd(business_data$Sales)
+var(business_data$Sales)
+summary(business_data$Sales)
+```
+
+We can quickly visualize the distribution of Sales using a Boxplot and a Density Plot:
+
+```{r eda-plots, fig.width=8, fig.height=4, echo=FALSE}
+par(mfrow = c(1, 2))
+boxplot(business_data$Sales, main = "Boxplot of Sales", col = "orange", ylab = "Sales")
+plot(density(business_data$Sales), main = "Density Plot of Sales", col = "blue", lwd = 2)
+par(mfrow = c(1, 1))
+```
+
+## 3. Assumption Checking and Linear Fit
+Following our initial Exploratory Data Analysis (EDA)—which confirmed the basic distribution of our data using statistical summaries and side-by-side Boxplot and Density plots—we evaluated our formal modeling requirements. Standard Ordinary Least Squares (OLS) regression requires the data to meet several strict conditions: linearity, independence, constant variance (homoscedasticity), and normality of errors. Before running our massive simulation, we fitted a basic model to our 50 companies and used diagnostic plots to check these assumptions. We looked at the "Residuals vs Fitted" plot to ensure our data was actually linear, and we checked the "Normal Q-Q" plot to see if our errors were normally distributed. While our data looked reasonably good, we knew that relying solely on OLS could be risky if there were hidden outliers. This is why we made Bootstrap Simulation our core methodology.
+
+```{r assumptions, fig.width=8, fig.height=6}
+base_model <- lm(Sales ~ Advertising + Price, data = business_data)
+
+# Diagnostic Plots
+par(mfrow = c(2, 2))
+plot(base_model)
+par(mfrow = c(1, 1))
+```
+
+### Fitted Linear Regression Lines
+To visualize the linear relationships, we plot the data with fitted regression lines.
+
+```{r fitted-lines, fig.width=10, fig.height=4, echo=FALSE}
+library(gridExtra)
+p_fit_ad <- ggplot(business_data, aes(x = Advertising, y = Sales)) +
+  geom_point(color = "darkblue", alpha = 0.7) +
+  geom_smooth(method = "lm", color = "red", fill="pink", se = TRUE) +
+  labs(title = "Sales vs Advertising", x = "Advertising ($1000s)", y = "Sales") + theme_minimal()
+
+p_fit_price <- ggplot(business_data, aes(x = Price, y = Sales)) +
+  geom_point(color = "darkgreen", alpha = 0.7) +
+  geom_smooth(method = "lm", color = "red", fill="pink", se = TRUE) +
+  labs(title = "Sales vs Price", x = "Price ($)", y = "Sales") + theme_minimal()
+
+grid.arrange(p_fit_ad, p_fit_price, ncol=2)
+```
+
+## 4. Methodology & Implementation (Bootstrap)
+We formulate: $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon$. We run a bootstrap simulation 10,000 times to generate coefficient distributions.
+
+```{r bootstrap-implementation}
+boot_reg <- function(data, indices) {
+  d <- data[indices, ] 
+  fit <- lm(Sales ~ Advertising + Price, data = d) 
+  return(coef(fit)) 
+}
+boot_results <- boot(data = business_data, statistic = boot_reg, R = 10000)
+```
+
+## 5. Results
+```{r results}
+boot.ci(boot_results, type = "perc", index = 2) # Advertising (Positive impact)
+boot.ci(boot_results, type = "perc", index = 3) # Price (Negative impact)
+```
+
+```{r plots, echo=FALSE, fig.width=10, fig.height=4}
+boot_df <- data.frame(boot_results$t)
+colnames(boot_df) <- c("Intercept", "Advertising_Coef", "Price_Coef")
+
+p_boot_ad <- ggplot(boot_df, aes(x = Advertising_Coef)) +
+  geom_histogram(bins=50, fill="#2E86C1", color="black") +
+  geom_vline(aes(xintercept=mean(Advertising_Coef)), color="red", linetype="dashed") +
+  labs(title = "Bootstrap: Advertising Effect", x = "Coefficient") + theme_minimal()
+
+p_boot_price <- ggplot(boot_df, aes(x = Price_Coef)) +
+  geom_histogram(bins=50, fill="#E74C3C", color="black") +
+  geom_vline(aes(xintercept=mean(Price_Coef)), color="black", linetype="dashed") +
+  labs(title = "Bootstrap: Price Effect", x = "Coefficient") + theme_minimal()
+
+grid.arrange(p_boot_ad, p_boot_price, ncol=2)
+```
+
+## 6. Conclusion
+Assumption checking confirmed our data supports linear modeling. Fitted plots visually demonstrated the trends, and Bootstrap Simulation mathematically proved Advertising drives sales while higher Prices suppress volume.
